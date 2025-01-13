@@ -40,7 +40,7 @@ public class DipendenteService {
     //inserisco un nuovo dipendente
     public Dipendente createDipendente(@Valid DipendenteCreaRequest request){
         Dipendente dipendente = new Dipendente();
-        if(dipendenteRepo.existsByEmail(request.getEmail()) || dipendenteRepo.existsByUsername(request.getUsername())){
+        if(dipendenteRepo.existsByEmail(request.getEmail()) || dipendenteRepo.existsByNome(request.getUsername())){
             throw new EntityExistsException("il dipendente con questa mail esiste già");
         }
         BeanUtils.copyProperties(request, dipendente);

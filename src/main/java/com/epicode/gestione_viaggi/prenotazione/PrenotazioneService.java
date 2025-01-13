@@ -49,12 +49,12 @@ public class PrenotazioneService {
 
 
 
-    public List<String> findByUtente(String utente) {
+    public List<Prenotazione> findByUtente(String utente) {
         // cerco nel db lo user tramite user name
 
         AppUser appUser = appUserRepository.findByUsername(utente)
                 .orElseThrow(() -> new IllegalArgumentException("Utente non trovato"));
 
-        return List.of("Il signore degli anelli", "Il trono di spade", "Il nome della rosa");
+        return prenotazioneRepo.findByUtente(appUser.getUsername());
     }
 }

@@ -1,5 +1,6 @@
 package com.epicode.gestione_viaggi.auth;
 
+import com.epicode.gestione_viaggi.dipendente.Dipendente;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -23,5 +24,8 @@ public class AppUser {
     @ElementCollection(fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
+
+    @OneToOne(mappedBy = "appUser", cascade = CascadeType.ALL)
+    private Dipendente dipendente;
 
 }

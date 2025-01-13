@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @AllArgsConstructor
 @PreAuthorize("isAuthenticated()")
@@ -29,11 +31,11 @@ public class PrenotazioneController {
     }
 
     @GetMapping("/recupero_dipendente")
-    public String getPrenotazioniConRecuperoDipendente(@AuthenticationPrincipal User utente) {
+    public List<Prenotazione> getPrenotazioniConRecuperoDipendente(@AuthenticationPrincipal User utente) {
 
-        prenotazioneService.findByUtente(utente.getUsername());
+        List<Prenotazione> prenotazioni = prenotazioneService.findByUtente(utente.getUsername());
 
         System.out.println(utente);
-        return "Lista delle prenotazioni disponibili per tutti con il dipendente";
+        return prenotazioni;
     }
 }

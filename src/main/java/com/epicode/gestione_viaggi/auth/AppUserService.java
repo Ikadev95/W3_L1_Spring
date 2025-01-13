@@ -1,5 +1,7 @@
 package com.epicode.gestione_viaggi.auth;
 
+import com.epicode.gestione_viaggi.dipendente.Dipendente;
+import com.epicode.gestione_viaggi.dipendente.DipendenteRepo;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +31,10 @@ public class AppUserService {
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
 
-    public AppUser registerUser(String username, String password, Set<Role> roles) {
+    @Autowired
+    private DipendenteRepo dipendenteRepo;
+
+    public AppUser registerUser(String username, String password, Set<Role> roles, String nome, String cognome, String email) {
         if (appUserRepository.existsByUsername(username)) {
             throw new EntityExistsException("Username già in uso");
         }
@@ -39,7 +44,24 @@ public class AppUserService {
         appUser.setPassword(passwordEncoder.encode(password));
         appUser.setRoles(roles);
 
-        return appUserRepository.save(appUser);
+
+        Dipendente dipendente = new Dipendente();
+        dipendente.setNome(nome);
+        dipendente.setCognome(cognome);
+        dipendente.setEmail(email);
+
+        appUser.setDipendente(dipendente);
+
+        // Associa il Dipendente all'AppUser
+        dipendente.setAppUser(appUser);
+
+        // Salva prima l'utente
+        appUser = appUserRepository.save(appUser);
+
+        // Salva anche il Dipendente
+        dipendenteRepo.save(dipendente);
+
+        return appUser;
     }
 
     public Optional<AppUser> findByUsername(String username) {

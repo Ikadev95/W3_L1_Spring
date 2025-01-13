@@ -1,5 +1,6 @@
 package com.epicode.gestione_viaggi.dipendente;
 
+import com.epicode.gestione_viaggi.auth.AppUser;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -11,9 +12,11 @@ public class Dipendente {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    private String username;
     private String nome;
     private String cognome;
     private String email;
     private String imageUrl;
+    @OneToOne
+    @JoinColumn(name = "user_id", nullable = false, unique = true)
+    private AppUser appUser;
 }

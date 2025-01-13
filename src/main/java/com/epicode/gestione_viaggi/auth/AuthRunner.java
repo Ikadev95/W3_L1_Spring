@@ -23,13 +23,27 @@ public class AuthRunner implements ApplicationRunner {
         // Creazione dell'utente admin se non esiste
         Optional<AppUser> adminUser = appUserService.findByUsername("admin");
         if (adminUser.isEmpty()) {
-            appUserService.registerUser("admin", "adminpwd", Set.of(Role.ROLE_ADMIN));
+            appUserService.registerUser(
+                    "admin",
+                    "adminpwd",
+                    Set.of(Role.ROLE_ADMIN),
+                    "Admin",
+                    "Admin",
+                    "admin@example.com"
+            );
         }
 
         // Creazione dell'utente user se non esiste
         Optional<AppUser> normalUser = appUserService.findByUsername("dipendente");
         if (normalUser.isEmpty()) {
-            appUserService.registerUser("dipendente", "dipendentepwd", Set.of(Role.ROLE_DIPENDENTE));
+            appUserService.registerUser(
+                    "dipendente",
+                    "dipendentepwd",
+                    Set.of(Role.ROLE_DIPENDENTE),
+                    "Giovanni",      // Nome dell'utente
+                    "Rossi",         // Cognome dell'utente
+                    "giovanni.rossi@example.com"
+            );
         }
     }
 }
